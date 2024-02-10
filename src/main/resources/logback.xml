@@ -16,10 +16,29 @@
         </encoder>
     </appender>
 
+    <!-- Define the SocketAppender for Logstash -->
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashSocketAppender">
+        <destination>localhost:5000</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+        <!-- Specify the protocol as 'tcp' -->
+        <includeCallerData>true</includeCallerData>
+        <keepAliveDuration>5 minutes</keepAliveDuration>
+        <connectTimeout>10 seconds</connectTimeout>
+        <acceptConnectionTimeout>5 seconds</acceptConnectionTimeout>
+        <sendBufferSize>8192</sendBufferSize>
+        <tcpNoDelay>true</tcpNoDelay>
+        <ssl>
+            <enabled>false</enabled>
+        </ssl>
+        <maxRetryCount>3</maxRetryCount>
+    </appender>
+
     <!-- Set the root logger level and attach appenders -->
     <root level="info">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
+        <appender-ref ref="LOGSTASH" />
     </root>
 
 </configuration>
+
